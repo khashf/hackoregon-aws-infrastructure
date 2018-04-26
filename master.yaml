@@ -24,7 +24,7 @@ Parameters:
     KeyPairName:
         Description: Key Pair for access to bastion and ecs host instances
         Type: String
-        Default: khuong_ec2_db_1
+        #Default: <Your key name here> # if you don't want to specify your keyname every time you deploy this stack
 
 Resources:
 
