@@ -31,37 +31,37 @@ Parameters:
     #     Description: the relative directory path where we keep the app config
     #     Type: String
 
-    ProjectName:
-        Description: ProjectName
-        Type: String
+    # ProjectName:
+    #     Description: ProjectName
+    #     Type: String
 
-    Debug:
-        Description: Debug
-        Type: String
+    # Debug:
+    #     Description: Debug
+    #     Type: String
 
-    PostgresUser:
-        Description: Postgres_User
-        Type: String
+    # PostgresUser:
+    #     Description: Postgres_User
+    #     Type: String
 
-    PostgresName:
-        Description: Postgres_Name
-        Type: String
+    # PostgresName:
+    #     Description: Postgres_Name
+    #     Type: String
 
-    PostgresHost:
-        Description: Postgres_Host
-        Type: String
+    # PostgresHost:
+    #     Description: Postgres_Host
+    #     Type: String
 
-    PostgresPort:
-        Description: Postgres_Port
-        Type: String
+    # PostgresPort:
+    #     Description: Postgres_Port
+    #     Type: String
     
-    PostgresPassword:
-        Description: Postgres_Password
-        Type: String
+    # PostgresPassword:
+    #     Description: Postgres_Password
+    #     Type: String
 
-    DjangoSecretKey:
-        Description: Django_Secret_Key
-        Type: String
+    # DjangoSecretKey:
+    #     Description: Django_Secret_Key
+    #     Type: String
 
     Path:
         Description: The path to register with the Application Load Balancer
@@ -92,37 +92,7 @@ Resources:
                   Essential: true
                   Image: 940871073408.dkr.ecr.us-west-2.amazonaws.com/integration/api
                   Memory: 100
-                  Environment:
-                    #- Name: CONFIG_BUCKET
-                    #  Value: !Ref ConfigBucket
-                    #- Name: DEPLOY_TARGET
-                    #  Value: !Ref DeployTarget
-                    #- Name: PROJ_SETTINGS_DIR
-                    #  Value: !Ref ProjSettingsDir
-                    - Name: PROJECT_NAME
-                      Value: !Ref ProjectName
-                    - Name: DEBUG
-                      Value: !Ref Debug
-                    - Name: POSTGRES_USER
-                      Value: !Ref PostgresUser
-                    - Name: POSTGRES_NAME
-                      Value: !Ref PostgresName
-                    - Name: POSTGRES_HOST
-                      Value: !Ref PostgresHost
-                    - Name: POSTGRES_PORT
-                      Value: !Ref PostgresPort
-                    - Name: POSTGRES_PASSWORD
-                      Value: !Ref PostgresPassword
-                    - Name: DJANGO_SECRET_KEY
-                      Value: !Ref DjangoSecretKey
-                    # - PROJECT_NAME
-                    # - DEBUG=False
-                    # - POSTGRES_USER=${STAGING_POSTGRES_USER}
-                    # - POSTGRES_NAME=${STAGING_POSTGRES_NAME}
-                    # - POSTGRES_HOST=${STAGING_POSTGRES_HOST}
-                    # - POSTGRES_PORT=${STAGING_POSTGRES_PORT}
-                    # - POSTGRES_PASSWORD=${STAGING_POSTGRES_PASSWORD}
-                    # - DJANGO_SECRET_KEY=${STAGING_DJANGO_SECRET_KEY} 
+                  #Environment:
                   PortMappings:
                     - ContainerPort: 8000
                   LogConfiguration:

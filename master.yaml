@@ -70,24 +70,24 @@ Resources:
                 SecurityGroup: !GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup
                 Subnets: !GetAtt VPC.Outputs.PrivateSubnets
 
-    BudgetService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/budget-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-budget-config
-                DeployTarget: integration
-                ProjSettingsDir: budget_proj  
-                Path: /budget*
+    # BudgetService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/budget-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-budget-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: budget_proj  
+    #             Path: /budget*
     
-    ExemplarService:
+    ExemplarAPIService:
         Type: AWS::CloudFormation::Stack
         Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-public/infra-test-1/services/exemplar-api/service.yaml
+            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-public/infra-test-1/services/exemplar-api/api_service.yaml
             Parameters:
                 VPC: !GetAtt VPC.Outputs.VPC
                 Cluster: !GetAtt ECS.Outputs.Cluster
@@ -96,15 +96,26 @@ Resources:
                 #ConfigBucket: hacko-exemplar-config
                 #DeployTarget: integration
                 #ProjSettingsDir: exemplar_proj
-                ProjectName: Dead-Songs
-                Debug: False
-                PostgresUser: housing-user # was: postgres
-                PostgresName: housing-db # was: transportation-systems-odot-crash-data
-                PostgresHost: 35.161.3.33 # AWS IP of Khuong's EC2 that running db
-                PostgresPort: 5432
-                PostgresPassword: sit-down-c0mic
-                DjangoSecretKey: r0ck.ar0und.the.c10ck
+                # ProjectName: Dead-Songs
+                # Debug: False
+                # PostgresUser: postgres
+                # PostgresName: dead_songs
+                # PostgresHost: db_development # was 35.161.3.33
+                # PostgresPort: 5432
+                # PostgresPassword: sit-down-c0mic
+                # DjangoSecretKey: r0ck.ar0und.the.c10ck
                 Path: /exemplar*
+    
+    ExemplarDBService:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-public/infra-test-1/services/exemplar-api/db_service.yaml
+            Parameters:
+                VPC: !GetAtt VPC.Outputs.VPC
+                Cluster: !GetAtt ECS.Outputs.Cluster
+                DesiredCount: 2
+                Listener: !GetAtt ALB.Outputs.Listener
+                Path: /exemplardb*
 
     # CivicLabService:
     #     Type: AWS::CloudFormation::Stack
@@ -220,13 +231,17 @@ Resources:
 
 Outputs:
 
-    BudgetServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "budget" ]]
+    # BudgetServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "budget" ]]
 
-    ExemplarServiceUrl:
+    ExemplarAPIServiceUrl:
         Description: The URL endpoint for the exemplar api service
         Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "exemplar" ]]
+
+    ExemplarDBServiceUrl:
+        Description: The URL endpoint for the exemplar api service
+        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "exemplardb" ]]
 
     # CiviclabServiceUrl:
     #     Description: The URL endpoint for the homeless service
