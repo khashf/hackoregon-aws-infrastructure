@@ -145,17 +145,17 @@ Resources:
     #             ProjSettingsDir: emerresponseAPI
     #             Path: /emergency*
 
-    EndPoints:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/endpoint-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ALB: !GetAtt ALB.Outputs.LoadBalancerUrl
-                Path: /endpoints*
+    # EndPoints:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/endpoint-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ALB: !GetAtt ALB.Outputs.LoadBalancerUrl
+    #             Path: /endpoints*
 
     # HomelessService:
     #     Type: AWS::CloudFormation::Stack
