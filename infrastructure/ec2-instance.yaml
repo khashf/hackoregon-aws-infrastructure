@@ -68,6 +68,8 @@ Mappings:
         "AMI": "ami-4b0a872b"
     bastion:
         "AMI": "ami-f173cc91"
+    db:
+        "AMI": "ami-7f43f307"
 
 Resources:
   EC2Instance:

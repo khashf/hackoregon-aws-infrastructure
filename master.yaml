@@ -70,101 +70,134 @@ Resources:
                 SecurityGroup: !GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup
                 Subnets: !GetAtt VPC.Outputs.PrivateSubnets
 
-    BudgetService:
+    # BudgetService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/budget-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-budget-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: budget_proj  
+    #             Path: /budget*
+    
+    ExemplarAPIService:
         Type: AWS::CloudFormation::Stack
         Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/budget-service/service.yaml
+            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-public/infra-test-1/services/exemplar-api/api_service.yaml
             Parameters:
                 VPC: !GetAtt VPC.Outputs.VPC
                 Cluster: !GetAtt ECS.Outputs.Cluster
                 DesiredCount: 2
                 Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-budget-config
-                DeployTarget: integration
-                ProjSettingsDir: budget_proj  
-                Path: /budget*
+                #ConfigBucket: hacko-exemplar-config
+                #DeployTarget: integration
+                #ProjSettingsDir: exemplar_proj
+                # ProjectName: Dead-Songs
+                # Debug: False
+                # PostgresUser: postgres
+                # PostgresName: dead_songs
+                # PostgresHost: db_development # was 35.161.3.33
+                # PostgresPort: 5432
+                # PostgresPassword: sit-down-c0mic
+                # DjangoSecretKey: r0ck.ar0und.the.c10ck
+                Path: /exemplar*
+    
+    ExemplarDBService:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-public/infra-test-1/services/exemplar-api/db_service.yaml
+            Parameters:
+                VPC: !GetAtt VPC.Outputs.VPC
+                Cluster: !GetAtt ECS.Outputs.Cluster
+                DesiredCount: 2
+                Listener: !GetAtt ALB.Outputs.Listener
+                Path: /exemplardb*
 
-    CivicLabService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/civic-lab-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-civiclab-config
-                DeployTarget: integration
-                ProjSettingsDir: civiclabSettings
-                Path: /
+    # CivicLabService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/civic-lab-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-civiclab-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: civiclabSettings
+    #             Path: /
 
-    EmerreponseService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/emergency-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-emerresponse-config
-                DeployTarget: integration
-                ProjSettingsDir: emerresponseAPI
-                Path: /emergency*
+    # EmerreponseService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/emergency-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-emerresponse-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: emerresponseAPI
+    #             Path: /emergency*
 
-    EndPoints:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/endpoint-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ALB: !GetAtt ALB.Outputs.LoadBalancerUrl
-                Path: /endpoints*
+    # EndPoints:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/endpoint-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ALB: !GetAtt ALB.Outputs.LoadBalancerUrl
+    #             Path: /endpoints*
 
-    HomelessService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/homeless-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-homeless-config
-                DeployTarget: integration
-                ProjSettingsDir: homelessAPI
-                Path: /homeless*
+    # HomelessService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/homeless-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-homeless-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: homelessAPI
+    #             Path: /homeless*
 
-    HousingService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/housing-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-housing-config
-                DeployTarget: integration
-                ProjSettingsDir: housingAPI
-                Path: /housing*
+    # HousingService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/housing-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-housing-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: housingAPI
+    #             Path: /housing*
 
-    transportService:
-        Type: AWS::CloudFormation::Stack
-        Properties:
-            TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/transport-service/service.yaml
-            Parameters:
-                VPC: !GetAtt VPC.Outputs.VPC
-                Cluster: !GetAtt ECS.Outputs.Cluster
-                DesiredCount: 2
-                Listener: !GetAtt ALB.Outputs.Listener
-                ConfigBucket: hacko-transport-config
-                DeployTarget: integration
-                ProjSettingsDir: transportationAPI
-                Path: /transport*
+    # transportService:
+    #     Type: AWS::CloudFormation::Stack
+    #     Properties:
+    #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/services/transport-service/service.yaml
+    #         Parameters:
+    #             VPC: !GetAtt VPC.Outputs.VPC
+    #             Cluster: !GetAtt ECS.Outputs.Cluster
+    #             DesiredCount: 2
+    #             Listener: !GetAtt ALB.Outputs.Listener
+    #             ConfigBucket: hacko-transport-config
+    #             DeployTarget: integration
+    #             ProjSettingsDir: transportationAPI
+    #             Path: /transport*
 
     BastionHost:
         Type: AWS::CloudFormation::Stack
@@ -181,7 +214,7 @@ Resources:
                 InstanceType: t2.nano
                 Subnet: !GetAtt VPC.Outputs.PublicSubnet1
 
-    # HomelessDB:
+    # Database:
     #     Type: AWS::CloudFormation::Stack
     #     Properties:
     #         TemplateURL: https://s3-us-west-2.amazonaws.com/hacko-infrastructure-cfn/infrastructure/ec2-instance.yaml
@@ -190,38 +223,46 @@ Resources:
     #             VPC: !GetAtt VPC.Outputs.VPC
     #             AvailabilityZone: us-west-2a
     #             SecurityGroupId: !GetAtt SecurityGroups.Outputs.DBSecurityGroup
-    #             ServerName: homeless
-    #             AmiName: homeless
+    #             ServerName: database
+    #             AmiName: db
     #             KeyPairName: !Ref KeyPairName
-    #             InstanceType: t2.nano
+    #             InstanceType: t2.micro
     #             Subnet: !GetAtt VPC.Outputs.PrivateSubnet1
 
 Outputs:
 
-    BudgetServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "budget" ]]
+    # BudgetServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "budget" ]]
 
-    CiviclabServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "" ]]
+    ExemplarAPIServiceUrl:
+        Description: The URL endpoint for the exemplar api service
+        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "exemplar" ]]
 
-    EmerresponeServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "emerresponse" ]]
+    ExemplarDBServiceUrl:
+        Description: The URL endpoint for the exemplar api service
+        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "exemplardb" ]]
+
+    # CiviclabServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "" ]]
+
+    # EmerresponeServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "emerresponse" ]]
 
     EndpointServiceUrl:
         Description: The URL endpoint for the homeless service
         Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "endpoints" ]]
 
-    HomelessServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "homeless" ]]
+    # HomelessServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "homeless" ]]
 
-    HousingServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "housing" ]]
+    # HousingServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "housing" ]]
 
-    transportServiceUrl:
-        Description: The URL endpoint for the homeless service
-        Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "transport" ]]
+    # transportServiceUrl:
+    #     Description: The URL endpoint for the homeless service
+    #     Value: !Join [ "/", [ !GetAtt ALB.Outputs.LoadBalancerUrl, "transport" ]]
